@@ -8,7 +8,7 @@ It imagines a GOV.UK service that lets people who rent from a council or housing
 
 Try it: https://report-a-housing-repair.onrender.com (password: `housingrepair`)
 
-![The emergency question, the higher-risk question and the confirmation page](docs/screenshots/cs_housingrepair_img_cover_v1.webp)
+![The emergency question, the higher-risk question and the confirmation page](docs/screenshots/cs_housingrepair_img_cover_v2.webp)
 
 ## The journey
 
