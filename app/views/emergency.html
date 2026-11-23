@@ -1,0 +1,37 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Is the problem one of these?" %}
+{% set backLink = "/landlord" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    <input type="hidden" name="emergency" value="_unchecked">
+
+    {{ govukCheckboxes({
+      name: "emergency",
+      idPrefix: "emergency",
+      values: data.emergency | asArray,
+      fieldset: {
+        legend: {
+          text: pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "These are emergencies. Your landlord must deal with them within 24 hours. Select all that apply." },
+      errorMessage: { text: errors.emergency } if errors.emergency,
+      items: [
+        { value: "gas", text: "You can smell gas or your carbon monoxide alarm is going off" },
+        { value: "no-heating", text: "You have no heating or no hot water" },
+        { value: "no-water", text: "You have no water at all" },
+        { value: "electrics", text: "There are exposed wires, sparks or burning smells from electrics" },
+        { value: "flooding", text: "Water is pouring in or flooding your home" },
+        { value: "insecure", text: "An outside door or window will not lock" },
+        { divider: "or" },
+        { value: "none", text: "None of these", behaviour: "exclusive" }
+      ]
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

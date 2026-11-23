@@ -1,0 +1,26 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "How much damp or mould is there?" %}
+{% set backLink = "/problem-type" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    {{ govukRadios({
+      name: "mouldAmount",
+      idPrefix: "mouldAmount",
+      value: data.mouldAmount,
+      fieldset: {
+        legend: {
+          html: '<span class="govuk-caption-l">About the problem</span>' + pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "If it’s in more than one place, think about the biggest patch." },
+      errorMessage: { text: errors.mouldAmount } if errors.mouldAmount,
+      items: 'mouldAmount' | itemsFor
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

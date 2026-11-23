@@ -1,0 +1,26 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What is the problem?" %}
+{% set backLink = "/emergency-repair" if data.isEmergency else "/emergency" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    {{ govukRadios({
+      name: "problemType",
+      idPrefix: "problemType",
+      value: data.problemType,
+      fieldset: {
+        legend: {
+          html: '<span class="govuk-caption-l">About the problem</span>' + pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "If there’s more than one problem, choose the most serious. You can tell us about the others later." },
+      errorMessage: { text: errors.problemType } if errors.problemType,
+      items: 'problemType' | itemsFor
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Where in your home is the problem?" %}
+{% set backLink = "/household" if data.problemType == "damp-mould" else "/problem-type" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    <input type="hidden" name="location" value="_unchecked">
+
+    {{ govukCheckboxes({
+      name: "location",
+      idPrefix: "location",
+      values: data.location | asArray,
+      fieldset: {
+        legend: {
+          html: '<span class="govuk-caption-l">About the problem</span>' + pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "Select all that apply." },
+      errorMessage: { text: errors.location } if errors.location,
+      items: 'location' | itemsFor
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

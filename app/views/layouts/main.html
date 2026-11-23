@@ -1,0 +1,37 @@
+{#
+  Shared layout for every page in the prototype.
+  Adds the phase banner, an optional back link and the error summary.
+  Pages can set: pageName, backLink, and pass errors / errorList from routes.js
+#}
+
+{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+
+{% block pageTitle %}
+  {% if errorList %}Error: {% endif %}{% if pageName %}{{ pageName }} - {% endif %}{{ serviceName }} - GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a portfolio prototype, not a real service. Do not enter real personal details. <a class="govuk-link" href="/about-this-prototype">About this prototype</a>'
+  }) }}
+
+  {% if backLink %}
+    {{ govukBackLink({ text: "Back", href: backLink }) }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorList %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorList
+        }) }}
+      {% endif %}
+
+      {% block question %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}

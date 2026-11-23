@@ -1,0 +1,21 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Call your landlord’s emergency repairs line" %}
+{% set backLink = "/emergency" %}
+
+{% block question %}
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+
+  <p class="govuk-body">This is an emergency repair. Call your landlord so they can send someone as soon as possible. Their number is usually on your tenancy agreement or rent statements.</p>
+
+  {{ govukInsetText({
+    text: "By law, your landlord must investigate an emergency within 24 hours and make your home safe within 24 hours."
+  }) }}
+
+  <p class="govuk-body">You can also report it here, so there’s a written record with the date and time.</p>
+
+  {{ govukButton({
+    text: "Continue to report the repair",
+    href: "/problem-type"
+  }) }}
+{% endblock %}

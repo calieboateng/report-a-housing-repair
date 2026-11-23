@@ -1,0 +1,25 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What is your name?" %}
+{% set backLink = "/manual-address" if data.address == "not-listed" else "/select-address" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    {{ govukInput({
+      id: "fullName",
+      name: "fullName",
+      value: data.fullName,
+      autocomplete: "name",
+      spellcheck: false,
+      label: {
+        html: '<span class="govuk-caption-l">Your details</span>' + pageName,
+        isPageHeading: true,
+        classes: "govuk-label--l"
+      },
+      hint: { text: "Use the name on your tenancy agreement if you can." },
+      errorMessage: { text: errors.fullName } if errors.fullName
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Add photos of the problem (optional)" %}
+{% set backLink = "/reported-before" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    {{ govukFileUpload({
+      id: "photos",
+      name: "photos",
+      javascript: true,
+      multiple: true,
+      attributes: { accept: "image/*" },
+      label: {
+        html: '<span class="govuk-caption-l">About the problem</span>' + pageName,
+        isPageHeading: true,
+        classes: "govuk-label--l"
+      },
+      hint: { text: "Photos help your landlord understand the problem before they visit. You can add up to 5. Each one must be smaller than 10MB." }
+    }) }}
+
+    <div class="govuk-button-group">
+      {{ govukButton({ text: "Continue" }) }}
+      <a class="govuk-link" href="{{ '/check-answers' if data.returnTo == 'check' else '/postcode' }}">Skip this step</a>
+    </div>
+  </form>
+{% endblock %}

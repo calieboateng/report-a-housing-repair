@@ -1,0 +1,146 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Check your answers before sending your report" %}
+{% set backLink = "/access-needs" %}
+
+{# ---------- About the problem ---------- #}
+{% set problemRows = [
+  {
+    key: { text: "Landlord" },
+    value: { text: data.landlord | label('landlord') },
+    actions: { items: [{ href: "/landlord?change=true", text: "Change", visuallyHiddenText: "landlord" }] }
+  },
+  {
+    key: { text: "Emergency" },
+    value: { text: data.emergency | labelList('emergency') },
+    actions: { items: [{ href: "/emergency?change=true", text: "Change", visuallyHiddenText: "if this is an emergency" }] }
+  },
+  {
+    key: { text: "Problem" },
+    value: { text: data.problemType | label('problemType') },
+    actions: { items: [{ href: "/problem-type?change=true", text: "Change", visuallyHiddenText: "the problem" }] }
+  }
+] %}
+
+{% if data.problemType == "damp-mould" %}
+  {% set problemRows = (problemRows.push(
+    {
+      key: { text: "How much" },
+      value: { text: data.mouldAmount | label('mouldAmount') },
+      actions: { items: [{ href: "/mould-amount?change=true", text: "Change", visuallyHiddenText: "how much damp or mould there is" }] }
+    },
+    {
+      key: { text: "People at higher risk" },
+      value: { text: data.household | labelList('household') },
+      actions: { items: [{ href: "/household?change=true", text: "Change", visuallyHiddenText: "people at higher risk" }] }
+    }
+  ), problemRows) %}
+{% endif %}
+
+{% set problemRows = (problemRows.push(
+  {
+    key: { text: "Where" },
+    value: { text: data.location | labelList('location') },
+    actions: { items: [{ href: "/location?change=true", text: "Change", visuallyHiddenText: "where the problem is" }] }
+  },
+  {
+    key: { text: "Description" },
+    value: { text: data.description },
+    actions: { items: [{ href: "/description?change=true", text: "Change", visuallyHiddenText: "description" }] }
+  },
+  {
+    key: { text: "How long" },
+    value: { text: data.howLong | label('howLong') },
+    actions: { items: [{ href: "/how-long?change=true", text: "Change", visuallyHiddenText: "how long this has been a problem" }] }
+  },
+  {
+    key: { text: "Reported before" },
+    value: { text: (data.reportedBefore | label('reportedBefore')) + (", reference " + data.previousReference if data.previousReference else "") },
+    actions: { items: [{ href: "/reported-before?change=true", text: "Change", visuallyHiddenText: "if you have reported this before" }] }
+  },
+  {
+    key: { text: "Photos" },
+    value: { text: (data.photos | asArray | length) + " added" if (data.photos | asArray | length) else "None added" },
+    actions: { items: [{ href: "/photos?change=true", text: "Change", visuallyHiddenText: "photos" }] }
+  }
+), problemRows) %}
+
+{# ---------- Address ---------- #}
+{% if data.address == "not-listed" %}
+  {% set addressParts = [data.addressLine1, data.addressLine2, data.addressTown, data.addressPostcode] %}
+  {% set addressHtml %}{% for part in addressParts %}{% if part %}{{ part }}{% if not loop.last %}<br>{% endif %}{% endif %}{% endfor %}{% endset %}
+  {% set addressChange = "/manual-address?change=true" %}
+{% else %}
+  {% set addressHtml %}{{ data.address }}{% endset %}
+  {% set addressChange = "/postcode?change=true" %}
+{% endif %}
+
+{# ---------- Contact ---------- #}
+{% set contactHtml %}
+  {%- for method in data.contactMethods | asArray -%}
+    {%- if method == "email" %}Email: {{ data.email }}{% endif -%}
+    {%- if method == "text" %}Text message: {{ data.mobile }}{% endif -%}
+    {%- if method == "phone" %}Phone call: {{ data.phone }}{% endif -%}
+    {%- if not loop.last %}<br>{% endif -%}
+  {%- endfor -%}
+{% endset %}
+
+{% block question %}
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+
+  {{ govukSummaryList({
+    card: { title: { text: "About the problem" } },
+    rows: problemRows
+  }) }}
+
+  {{ govukSummaryList({
+    card: { title: { text: "Your address" } },
+    rows: [
+      {
+        key: { text: "Address" },
+        value: { html: addressHtml },
+        actions: { items: [{ href: addressChange, text: "Change", visuallyHiddenText: "address" }] }
+      }
+    ]
+  }) }}
+
+  {{ govukSummaryList({
+    card: { title: { text: "Your details" } },
+    rows: [
+      {
+        key: { text: "Name" },
+        value: { text: data.fullName },
+        actions: { items: [{ href: "/name?change=true", text: "Change", visuallyHiddenText: "name" }] }
+      },
+      {
+        key: { text: "Contact" },
+        value: { html: contactHtml },
+        actions: { items: [{ href: "/contact?change=true", text: "Change", visuallyHiddenText: "how to contact you" }] }
+      }
+    ]
+  }) }}
+
+  {{ govukSummaryList({
+    card: { title: { text: "The visit" } },
+    rows: [
+      {
+        key: { text: "When" },
+        value: { text: data.access | labelList('access') },
+        actions: { items: [{ href: "/access?change=true", text: "Change", visuallyHiddenText: "when someone can visit" }] }
+      },
+      {
+        key: { text: "Anything to know" },
+        value: { text: data.accessDetails if data.accessNeeds == "yes" else "No" },
+        actions: { items: [{ href: "/access-needs?change=true", text: "Change", visuallyHiddenText: "anything the repair team should know" }] }
+      }
+    ]
+  }) }}
+
+  <h2 class="govuk-heading-m">Now send your report</h2>
+  <p class="govuk-body">By sending this report, you’re confirming that the details you’ve given are correct to the best of your knowledge.</p>
+  <p class="govuk-body">We’ll send it to your landlord. They will use your details to arrange the repair.</p>
+
+  <form method="post" novalidate>
+    {{ govukButton({ text: "Send report", preventDoubleClick: true }) }}
+  </form>
+{% endblock %}

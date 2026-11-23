@@ -1,0 +1,23 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "How to find out who your landlord is" %}
+{% set backLink = "/landlord" %}
+
+{% block question %}
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+
+  <p class="govuk-body">You can usually find your landlord’s name on:</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>your tenancy agreement</li>
+    <li>a rent statement or letter about your rent</li>
+    <li>your bank statement, next to your rent payments</li>
+  </ul>
+
+  <p class="govuk-body">If your landlord is the council or a housing association, you can use this service.</p>
+
+  {{ govukButton({
+    text: "Go back and choose your landlord",
+    href: "/landlord",
+    classes: "govuk-button--secondary"
+  }) }}
+{% endblock %}

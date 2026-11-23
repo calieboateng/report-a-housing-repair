@@ -1,0 +1,16 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Contact your landlord or letting agent" %}
+{% set backLink = "/landlord" %}
+
+{% block question %}
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+
+  <p class="govuk-body">You cannot use this service if you rent from a private landlord or letting agent.</p>
+
+  <p class="govuk-body">Tell your landlord or letting agent about the repair in writing, such as by email or text message. Keep a copy so you have a record of when you reported it.</p>
+
+  <p class="govuk-body">If they do not fix the problem, contact the environmental health team at your local council.</p>
+
+  <p class="govuk-body"><a class="govuk-link" href="https://www.gov.uk/private-renting/repairs">Find out about repairs in privately rented homes</a></p>
+{% endblock %}

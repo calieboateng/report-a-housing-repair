@@ -1,0 +1,36 @@
+{% extends "layouts/main.html" %}
+
+{% block question %}
+  <h1 class="govuk-heading-xl">Report a housing repair</h1>
+
+  <p class="govuk-body">Use this service to report a repair in your home if you rent from a council or housing association in England.</p>
+
+  <p class="govuk-body">You can report:</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>damp or mould</li>
+    <li>leaks or water coming in</li>
+    <li>problems with heating or hot water</li>
+    <li>problems with electrics or lighting</li>
+    <li>broken doors, windows or locks</li>
+    <li>other repairs inside or outside your home</li>
+  </ul>
+
+  <p class="govuk-body">We’ll send your report to your landlord and give you a reference number. It takes around 5 minutes.</p>
+
+  {{ govukWarningText({
+    text: "If you can smell gas, leave your home and call the National Gas Emergency Service on 0800 111 999. Do not use this service.",
+    iconFallbackText: "Warning"
+  }) }}
+
+  <h2 class="govuk-heading-m">Before you start</h2>
+  <p class="govuk-body">You’ll need your postcode. If you can, take some photos of the problem.</p>
+
+  {{ govukButton({
+    text: "Start now",
+    href: "/landlord",
+    isStartButton: true
+  }) }}
+
+  <h2 class="govuk-heading-m">If you rent from a private landlord</h2>
+  <p class="govuk-body">Contact your landlord or letting agent directly. <a class="govuk-link" href="https://www.gov.uk/private-renting/repairs">Find out about repairs in privately rented homes</a>.</p>
+{% endblock %}

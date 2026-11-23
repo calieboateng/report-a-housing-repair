@@ -1,0 +1,40 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Have you reported this problem to your landlord before?" %}
+{% set backLink = "/how-long" %}
+
+{% block question %}
+  {% set referenceHtml %}
+    {{ govukInput({
+      id: "previousReference",
+      name: "previousReference",
+      value: data.previousReference,
+      classes: "govuk-input--width-10",
+      spellcheck: false,
+      label: { text: "Reference number (optional)" },
+      hint: { text: "If you have one, it helps your landlord link your reports together." }
+    }) }}
+  {% endset %}
+
+  <form method="post" novalidate>
+    {{ govukRadios({
+      name: "reportedBefore",
+      idPrefix: "reportedBefore",
+      value: data.reportedBefore,
+      fieldset: {
+        legend: {
+          html: '<span class="govuk-caption-l">About the problem</span>' + pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      errorMessage: { text: errors.reportedBefore } if errors.reportedBefore,
+      items: [
+        { value: "yes", text: "Yes", conditional: { html: referenceHtml } },
+        { value: "no", text: "No" }
+      ]
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

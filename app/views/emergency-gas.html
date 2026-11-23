@@ -1,0 +1,22 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Leave your home and call the gas emergency number now" %}
+{% set backLink = "/emergency" %}
+
+{% block question %}
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+
+  <p class="govuk-body-l">Call the National Gas Emergency Service on <strong>0800 111 999</strong>. It’s free and open 24 hours a day.</p>
+
+  <p class="govuk-body">While you wait:</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>open doors and windows if you can</li>
+    <li>turn off the gas at the meter if you know how</li>
+    <li>do not use light switches, matches or anything that could make a spark</li>
+  </ul>
+
+  <p class="govuk-body">If you or anyone else feels unwell, call 999.</p>
+
+  <h2 class="govuk-heading-m">When it’s safe</h2>
+  <p class="govuk-body">Once the gas emergency service has made your home safe, you can <a class="govuk-link" href="/problem-type">report any repairs that are still needed</a>.</p>
+{% endblock %}

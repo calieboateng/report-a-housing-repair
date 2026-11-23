@@ -1,0 +1,40 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Is there anything the repair team should know before they visit?" %}
+{% set backLink = "/access" %}
+
+{% block question %}
+  {% set detailsHtml %}
+    {{ govukCharacterCount({
+      name: "accessDetails",
+      id: "accessDetails",
+      maxlength: 300,
+      value: data.accessDetails,
+      label: { text: "What should they know?" },
+      errorMessage: { text: errors.accessDetails } if errors.accessDetails
+    }) }}
+  {% endset %}
+
+  <form method="post" novalidate>
+    {{ govukRadios({
+      name: "accessNeeds",
+      idPrefix: "accessNeeds",
+      value: data.accessNeeds,
+      fieldset: {
+        legend: {
+          html: '<span class="govuk-caption-l">The visit</span>' + pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "For example, you need an interpreter, someone needs to be with you, you have a pet, or it’s hard to get into your building." },
+      errorMessage: { text: errors.accessNeeds } if errors.accessNeeds,
+      items: [
+        { value: "yes", text: "Yes", conditional: { html: detailsHtml } },
+        { value: "no", text: "No" }
+      ]
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

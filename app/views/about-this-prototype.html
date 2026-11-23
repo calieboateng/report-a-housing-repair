@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "About this prototype" %}
+
+{% block question %}
+  <span class="govuk-caption-l">Self-initiated project by Calie Boateng</span>
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+
+  <p class="govuk-body-l">This is a working prototype of an imagined GOV.UK service that lets people in council and housing association homes in England report a repair to their landlord.</p>
+
+  {{ govukWarningText({
+    text: "This is not a real service. Reports are not sent to anyone. Do not enter real personal details.",
+    iconFallbackText: "Warning"
+  }) }}
+
+  <h2 class="govuk-heading-m">Why this service</h2>
+  <p class="govuk-body">At a consumer law firm, I designed journeys for people bringing housing disrepair claims, so I know how hard it can be to get a repair taken seriously.</p>
+  <p class="govuk-body">Since 27 October 2025, Awaab’s Law has set legal deadlines for social landlords to deal with emergency hazards and significant damp and mould. This prototype explores how a service could capture a clear report once and tell tenants what their landlord must now do.</p>
+
+  <h2 class="govuk-heading-m">User needs</h2>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>As a tenant with a repair, I need to tell my landlord about it in one go, so that I don’t have to keep chasing.</li>
+    <li>As a tenant with damp or mould, I need my landlord to know who in my home is most at risk, so that my repair is prioritised.</li>
+    <li>As a tenant, I need to know what should happen next and by when, so that I know when to complain.</li>
+    <li>As a tenant in danger, I need to be sent to the right emergency help straight away, not through a long form.</li>
+  </ul>
+
+  <h2 class="govuk-heading-m">Design decisions</h2>
+  <ul class="govuk-list govuk-list--bullet">
+    <li><strong>Emergencies first.</strong> Gas goes straight to the emergency number. Other emergencies are told to phone, then offered a written record.</li>
+    <li><strong>One thing per page,</strong> following the GOV.UK Service Manual, with plain English questions and hint text that explains why we ask.</li>
+    <li><strong>Damp and mould branch.</strong> Extra questions only appear for damp and mould, and the question about people at higher risk explains why we ask and has a “None of these” answer.</li>
+    <li><strong>Eligibility up front.</strong> Private renters leave on the first question with somewhere useful to go.</li>
+    <li><strong>Accessible by default.</strong> GOV.UK Frontend components, error summaries linked to each field, autocomplete on personal details and no CAPTCHA.</li>
+    <li><strong>Clear next steps.</strong> The confirmation page shows the legal timescales that apply to the tenant’s report, and where to go if they are missed.</li>
+  </ul>
+
+  <h2 class="govuk-heading-m">What I’d test with users</h2>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>Whether tenants recognise the emergency list, and what they expect to happen after it.</li>
+    <li>How people feel about the higher-risk question, and whether the hint text makes the reason clear.</li>
+    <li>Whether one “Describe the problem” box is enough when someone has several repairs.</li>
+    <li>How it works with a screen reader and on older phones, which many tenants use.</li>
+  </ul>
+
+  <h2 class="govuk-heading-m">How it’s built</h2>
+  <p class="govuk-body">Built with the GOV.UK Prototype Kit and GOV.UK Frontend, using Design System patterns for addresses, names, contact details, check answers and confirmation pages. Branching and validation are in <code>app/routes.js</code>.</p>
+
+  <p class="govuk-body"><a class="govuk-link" href="https://bycalie.uk">bycalie.uk</a></p>
+
+  {{ govukButton({ text: "Try the prototype", href: "/" }) }}
+{% endblock %}

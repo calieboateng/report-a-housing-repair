@@ -1,0 +1,32 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Who is your landlord?" %}
+{% set backLink = "/" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    {{ govukRadios({
+      name: "landlord",
+      idPrefix: "landlord",
+      value: data.landlord,
+      fieldset: {
+        legend: {
+          text: pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "This is who you pay your rent to." },
+      errorMessage: { text: errors.landlord } if errors.landlord,
+      items: [
+        { value: "council", text: "The council" },
+        { value: "housing-association", text: "A housing association" },
+        { value: "private", text: "A private landlord or letting agent" },
+        { divider: "or" },
+        { value: "not-sure", text: "I’m not sure" }
+      ]
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

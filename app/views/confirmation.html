@@ -1,0 +1,58 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Repair reported" %}
+{% set landlordName = "the council" if data.landlord == "council" else "your housing association" %}
+
+{% block question %}
+  {{ govukPanel({
+    titleText: "Repair reported",
+    html: "Your reference number<br><strong>" + (data.reference or "HR-000000") + "</strong>"
+  }) }}
+
+  <p class="govuk-body">We’ve sent your report to {{ landlordName }}{% if data.email %} and a copy to <strong>{{ data.email }}</strong>{% endif %}.</p>
+
+  <h2 class="govuk-heading-m">What happens next</h2>
+
+  {% if data.isEmergency %}
+
+    <p class="govuk-body">You told us this is an emergency. If you have not already, call your landlord’s emergency repairs line now.</p>
+    <p class="govuk-body">By law, your landlord must:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>investigate within 24 hours</li>
+      <li>make your home safe within 24 hours</li>
+    </ul>
+
+  {% elif data.problemType == "damp-mould" %}
+
+    <p class="govuk-body">Your landlord will check whether the damp or mould could harm your health or safety.</p>
+    <p class="govuk-body">If it could, by law they must:</p>
+    <ol class="govuk-list govuk-list--number">
+      <li>investigate within 10 working days of your report</li>
+      <li>send you a written summary of what they found within 3 working days of the investigation</li>
+      <li>make your home safe within 5 working days of the investigation</li>
+    </ol>
+    {% set household = data.household | asArray %}
+    {% if household | length and not ("none" in household) %}
+      {{ govukInsetText({
+        text: "You told us someone in your home may be at higher risk from damp and mould. We’ve shared this with your landlord so they can take it into account."
+      }) }}
+    {% endif %}
+
+  {% else %}
+
+    <p class="govuk-body">Your landlord will contact you to arrange a visit. They’ll tell you how long the repair should take.</p>
+
+  {% endif %}
+
+  <p class="govuk-body">Keep your reference number. You’ll need it if you contact your landlord about this repair.</p>
+
+  <h2 class="govuk-heading-m">If the problem is not fixed</h2>
+  <p class="govuk-body">Make a complaint to your landlord. If you’re not happy with how they deal with it, you can <a class="govuk-link" href="https://www.housing-ombudsman.org.uk/">contact the Housing Ombudsman</a>. It’s free.</p>
+
+  <h2 class="govuk-heading-m">If the problem gets worse</h2>
+  <p class="govuk-body">If it becomes an emergency, such as water pouring in or electrics sparking, call your landlord’s emergency repairs line straight away.</p>
+
+  <p class="govuk-body"><a class="govuk-link" href="#">What did you think of this service?</a> (takes 30 seconds)</p>
+
+  <p class="govuk-body govuk-!-margin-top-8"><a class="govuk-link" href="/start-again">Report another repair</a></p>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "How long has this been a problem?" %}
+{% set backLink = "/description" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    {{ govukRadios({
+      name: "howLong",
+      idPrefix: "howLong",
+      value: data.howLong,
+      fieldset: {
+        legend: {
+          html: '<span class="govuk-caption-l">About the problem</span>' + pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "Your best guess is fine." },
+      errorMessage: { text: errors.howLong } if errors.howLong,
+      items: 'howLong' | itemsFor
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

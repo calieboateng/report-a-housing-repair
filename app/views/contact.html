@@ -1,0 +1,73 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "How should your landlord contact you about this repair?" %}
+{% set backLink = "/name" %}
+
+{% block question %}
+  {% set emailHtml %}
+    {{ govukInput({
+      id: "email",
+      name: "email",
+      type: "email",
+      value: data.email,
+      autocomplete: "email",
+      spellcheck: false,
+      classes: "govuk-!-width-full",
+      label: { text: "Email address" },
+      errorMessage: { text: errors.email } if errors.email
+    }) }}
+  {% endset %}
+
+  {% set mobileHtml %}
+    {{ govukInput({
+      id: "mobile",
+      name: "mobile",
+      type: "tel",
+      value: data.mobile,
+      autocomplete: "tel",
+      classes: "govuk-input--width-20",
+      label: { text: "Mobile phone number" },
+      errorMessage: { text: errors.mobile } if errors.mobile
+    }) }}
+  {% endset %}
+
+  {% set phoneHtml %}
+    {{ govukInput({
+      id: "phone",
+      name: "phone",
+      type: "tel",
+      value: data.phone,
+      autocomplete: "tel",
+      classes: "govuk-input--width-20",
+      label: { text: "Phone number" },
+      hint: { text: "For international numbers include the country code" },
+      errorMessage: { text: errors.phone } if errors.phone
+    }) }}
+  {% endset %}
+
+  <form method="post" novalidate>
+    <input type="hidden" name="contactMethods" value="_unchecked">
+
+    {{ govukCheckboxes({
+      name: "contactMethods",
+      idPrefix: "contactMethods",
+      values: data.contactMethods | asArray,
+      fieldset: {
+        legend: {
+          html: '<span class="govuk-caption-l">Your details</span>' + pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "They’ll use this to arrange a visit and tell you what happens next. Select all that apply." },
+      errorMessage: { text: errors.contactMethods } if errors.contactMethods,
+      items: [
+        { value: "email", text: "Email", conditional: { html: emailHtml } },
+        { value: "text", text: "Text message", conditional: { html: mobileHtml } },
+        { value: "phone", text: "Phone call", conditional: { html: phoneHtml } }
+      ]
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}

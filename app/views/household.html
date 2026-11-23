@@ -1,0 +1,36 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Does anyone in your home fit any of these descriptions?" %}
+{% set backLink = "/mould-amount" %}
+
+{% block question %}
+  <form method="post" novalidate>
+    <input type="hidden" name="household" value="_unchecked">
+
+    {{ govukCheckboxes({
+      name: "household",
+      idPrefix: "household",
+      values: data.household | asArray,
+      fieldset: {
+        legend: {
+          html: '<span class="govuk-caption-l">About the problem</span>' + pageName,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: { text: "Damp and mould can be more harmful to some people. We ask so your landlord can prioritise your repair. Select all that apply." },
+      errorMessage: { text: errors.household } if errors.household,
+      items: [
+        { value: "under-5", text: "A child aged under 5" },
+        { value: "over-65", text: "Someone aged 65 or over" },
+        { value: "pregnant", text: "Someone who is pregnant" },
+        { value: "breathing", text: "Someone with a breathing condition, such as asthma" },
+        { value: "immune", text: "Someone with a weakened immune system" },
+        { divider: "or" },
+        { value: "none", text: "None of these", behaviour: "exclusive" }
+      ]
+    }) }}
+
+    {{ govukButton({ text: "Continue" }) }}
+  </form>
+{% endblock %}
