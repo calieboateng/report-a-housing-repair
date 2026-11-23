@@ -6,6 +6,10 @@ It imagines a GOV.UK service that lets people who rent from a council or housing
 
 **This is not a real service.** Reports are not sent anywhere.
 
+Try it: https://report-a-housing-repair.onrender.com (password: `housingrepair`)
+
+![The emergency question, the higher-risk question and the confirmation page](docs/screenshots/cs_housingrepair_img_cover_v1.webp)
+
 ## The journey
 
 1. Start page
